@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class CategoryServceImpl implements CategoryService {
@@ -46,5 +47,11 @@ public class CategoryServceImpl implements CategoryService {
     @Override
     public void delete(Long id) {
         categoryMapper.delete(id);
+    }
+
+    @Override
+    public List<Category> list(Long type) {
+        List<Category> categories= categoryMapper.ListByTypeAndStatus(type,StatusConstant.ENABLE);
+        return categories;
     }
 }

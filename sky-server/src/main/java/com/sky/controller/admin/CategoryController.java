@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @RestController
 @RequestMapping("/admin/category")
@@ -30,9 +31,9 @@ public class CategoryController {
     }
     @GetMapping("/list")
     @ApiOperation("分类列表查询")
-    public Result<PageResult> list(CategoryPageQueryDTO categoryPageQueryDTO) {
-        PageResult pageResult=categoryService.page(categoryPageQueryDTO);
-        return Result.success(pageResult);
+    public Result<List<Category>> list(Long type) {
+        List<Category> categories=categoryService.list(type);
+        return Result.success(categories);
     }
     @PutMapping
     @ApiOperation("修改分类")
