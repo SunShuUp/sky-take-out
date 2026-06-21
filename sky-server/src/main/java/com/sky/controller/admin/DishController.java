@@ -1,8 +1,6 @@
 package com.sky.controller.admin;
 
-import com.github.pagehelper.Page;
-import com.sky.dto.CategoryDTO;
-import com.sky.dto.CategoryPageQueryDTO;
+
 import com.sky.dto.DishDTO;
 import com.sky.dto.DishPageQueryDTO;
 import com.sky.entity.Dish;
@@ -13,16 +11,14 @@ import com.sky.vo.DishVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/admin/dish")
-@Api("菜品管理")
+@Api(tags = "菜品相关接口")
 @Slf4j
 public class DishController {
     @Autowired
