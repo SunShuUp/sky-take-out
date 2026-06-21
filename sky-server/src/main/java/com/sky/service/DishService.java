@@ -8,6 +8,7 @@ import com.sky.dto.DishPageQueryDTO;
 import com.sky.entity.Dish;
 import com.sky.result.PageResult;
 import com.sky.vo.DishVO;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -38,6 +39,7 @@ public interface DishService {
      * 修改菜单
      * @param dishdto
      */
+    @Transactional
     void updateWithFlavor(DishDTO dishdto);
 
     /**
@@ -45,7 +47,8 @@ public interface DishService {
      * @param dishdto
      * @return
      */
+    @Transactional
     void addDishWithFlavor(DishDTO dishdto);
-
+    @Transactional
     void deleteWithFlavor(String Ids);
 }

@@ -78,7 +78,7 @@ public class DishServiceImpl implements DishService {
         dishMapper.add(dish);
         if(flavors!=null&&flavors.size()>0){
             flavors.forEach(flavor->{
-                flavor.setDishId(dishdto.getId());
+                flavor.setDishId(dish.getId());
             });
             dishFlavorMapper.insertbatch(flavors);
         }
