@@ -1,7 +1,8 @@
 server:
   port: 8080
-
 spring:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
   profiles:
     active: dev
   main:
@@ -23,6 +24,8 @@ spring:
         max-active: 8     # 最大连接数
         max-idle: 8       # 最大空闲连接
         min-idle: 0       # 最小空闲连接
+
+
 mybatis:
   #mapper配置文件
   mapper-locations: classpath:mapper/*.xml
