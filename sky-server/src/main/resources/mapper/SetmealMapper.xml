@@ -31,15 +31,38 @@
         from setmeal s left join category  c on s.category_id =c.id
         <where>
         <if test="categoryId!=null">
-            s.category_id=#{categoryId}
+           and s.category_id=#{categoryId}
         </if>
         <if test="status!=null">
-            s.status=#{status}
+          and  s.status=#{status}
         </if>
         <if test="name!=null">
-            s.name like concat('%',#{name},'%')
+           and  s.name like concat('%',#{name},'%')
         </if>
         </where>
         order by  create_time desc
+    </select>
+    <select id="getSetmealWithDish" resultType="com.sky.vo.SetmealVO">
+        select c.name categoryName,s.*
+        from setmeal s left join category  c on s.category_id =c.id
+        <where>
+            <if test="categoryId!=null">
+               and s.category_id=#{categoryId}
+            </if>
+            <if test="status!=null">
+              and   s.status=#{status}
+            </if>
+            <if test="name!=null">
+               and s.name like concat('%',#{name},'%')
+            </if>
+        </where>
+    </select>
+    <select id="getDishbyId" resultType="com.sky.vo.DishVO">
+        select sd.name,sd.copies,d.image,d.description  from setmeal_dish sd left join dish d on  sd.dish_id=d.id
+        <where>
+            <if test="id!=null">
+                 and sd.setmeal_id=#{id}
+            </if>
+        </where>
     </select>
 </mapper>

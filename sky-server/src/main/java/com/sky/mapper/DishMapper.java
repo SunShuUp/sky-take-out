@@ -17,8 +17,10 @@ import java.util.List;
 public interface DishMapper {
     public Dish getDishById(long id);
     List<DishVO> query(Long categoryId);
+    List<DishVO> list(Dish dish);
 
     Page<DishVO> page(DishPageQueryDTO dishPageQueryDTO);
+
     @AutoFill(OperationType.UPDATE)
     void update(Dish dish);
     @AutoFill(OperationType.INSERT)

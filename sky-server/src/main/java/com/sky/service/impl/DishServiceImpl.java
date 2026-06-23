@@ -6,6 +6,7 @@ import com.sky.constant.StatusConstant;
 import com.sky.context.BaseContext;
 import com.sky.dto.DishDTO;
 import com.sky.dto.DishPageQueryDTO;
+import com.sky.entity.Category;
 import com.sky.entity.Dish;
 import com.sky.entity.DishFlavor;
 import com.sky.mapper.DishFlavorMapper;
@@ -45,7 +46,9 @@ public class DishServiceImpl implements DishService {
 
     @Override
     public PageResult page(DishPageQueryDTO dishPageQueryDTO) {
-        PageHelper.startPage(dishPageQueryDTO.getPage(),dishPageQueryDTO.getPageSize());
+        int pageNum = dishPageQueryDTO.getPage() > 0 ? dishPageQueryDTO.getPage() : 1;
+        int pageSize = dishPageQueryDTO.getPageSize() > 0 ? dishPageQueryDTO.getPageSize() : 10;
+        PageHelper.startPage(pageNum,pageSize);
         Page<DishVO> page=dishMapper.page(dishPageQueryDTO);
         return new PageResult(page.getTotal(),page.getResult());
     }
@@ -88,5 +91,11 @@ public class DishServiceImpl implements DishService {
     public void deleteWithFlavor(String Ids) {
         dishFlavorMapper.deleteBatch(Ids);
         dishMapper.deleteBatch(Ids);
+    }
+
+    @Override
+    public List<DishVO> listwithFlavor(Dish dish) {
+        List<DishVO> dishVOList=dishMapper.query(dish.getCategoryId());
+        return dishVOList;
     }
 }

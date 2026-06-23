@@ -3,8 +3,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.sky.mapper.DishMapper">
     <insert id="add" useGeneratedKeys="true" keyProperty="id"  >
-        insert into dish (name,category_id,image,description,status,create_time,update_time,create_user,update_user)
-        values (#{name},#{categoryId},#{image},#{description},#{status},#{createTime},#{updateTime},#{createUser},#{updateUser})
+        insert into dish (name,category_id,price,image,description,status,create_time,update_time,create_user,update_user)
+        values (#{name},#{categoryId},#{price},#{image},#{description},#{status},#{createTime},#{updateTime},#{createUser},#{updateUser})
     </insert>
     <update id="update">
         update dish
@@ -48,7 +48,15 @@
     </update>
 
     <select id="page" resultType="com.sky.vo.DishVO">
-        select d.*,c.name category_name
+        select d.id,
+               d.name,
+               d.category_id categoryId,
+               ifnull(d.price, 0) price,
+               d.image,
+               d.description,
+               d.status,
+               d.update_time updateTime,
+               c.name categoryName
         from dish d,category c
         <where>
             d.category_id=c.id
@@ -80,6 +88,20 @@
             and c.type=1
             <if test="categoryId!=null">
                 and c.id=#{categoryId}
+            </if>
+        </where>
+    </select>
+    <select id="list" resultType="com.sky.vo.DishVO">
+        select d.*,c.name categoryName
+        from  dish d,category c
+        <where>
+            d.category_id =c.id
+            and c.type=1
+            <if test="categoryId!=null">
+                and c.id=#{categoryId}
+            </if>
+            <if test="status!=null">
+                and d.status=#{status}
             </if>
         </where>
     </select>

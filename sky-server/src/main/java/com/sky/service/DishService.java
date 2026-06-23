@@ -5,6 +5,7 @@ import com.sky.dto.CategoryDTO;
 import com.sky.dto.CategoryPageQueryDTO;
 import com.sky.dto.DishDTO;
 import com.sky.dto.DishPageQueryDTO;
+import com.sky.entity.Category;
 import com.sky.entity.Dish;
 import com.sky.result.PageResult;
 import com.sky.vo.DishVO;
@@ -51,4 +52,11 @@ public interface DishService {
     void addDishWithFlavor(DishDTO dishdto);
     @Transactional
     void deleteWithFlavor(String Ids);
+
+    /**
+     * 根据分类查询菜品
+     * @param dish
+     * @return
+     */
+    List<DishVO> listwithFlavor(Dish dish);
 }
