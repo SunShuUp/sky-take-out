@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,18 +39,21 @@ public class SetmealController {
     }
     @PostMapping
     @ApiOperation("新增套餐")
+    @CacheEvict(allEntries = true)
     public Result addSetmeal(@RequestBody SetmealDTO setmealDTO){
         setmealSercice.insertWithDish(setmealDTO);
         return Result.success();
     }
     @PutMapping
     @ApiOperation("修改套餐")
+    @CacheEvict(value = "Setmel",key = "#setmealDTO.categoryId")
     public Result updateSetmeal(@RequestBody SetmealDTO setmealDTO){
         setmealSercice.updateWithDish(setmealDTO);
         return Result.success();
     }
     @PostMapping("/status/{status}")
     @ApiOperation("套餐起售 停售")
+    @CacheEvict(allEntries = true)
     public Result<String> stopOrUp(@PathVariable Integer status,Long id){
         setmealSercice.stopOrUp(status,id);
         return Result.success();
@@ -57,6 +61,7 @@ public class SetmealController {
     }
     @DeleteMapping
     @ApiOperation("批量删除套餐")
+    @CacheEvict(allEntries = true)
     public Result<String> deleteBatch(@RequestParam  List<Long> ids){
         setmealSercice.deleteBatch(ids);
         return Result.success();
