@@ -37,7 +37,9 @@ public class DishController {
     @GetMapping("/list")
     @ApiOperation("根据分类id查询菜品")
     public Result<List<DishVO>> getDishList(@RequestParam Long categoryId) {
-        List<DishVO>  dishes=dishService.query(categoryId);
+        Dish dish=new Dish();
+        dish.setCategoryId(categoryId);
+        List<DishVO>  dishes=dishService.listwithFlavor(dish);
         return Result.success(dishes);
     }
     @GetMapping("/page")

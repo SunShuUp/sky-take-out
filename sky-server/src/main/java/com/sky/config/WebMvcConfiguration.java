@@ -1,6 +1,7 @@
 package com.sky.config;
 
 import com.sky.interceptor.JwtTokenAdminInterceptor;
+import com.sky.interceptor.JwtTokenUserInterceptor;
 import com.sky.json.JacksonObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,17 +31,27 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
     @Autowired
     private JwtTokenAdminInterceptor jwtTokenAdminInterceptor;
 
-    /**
-     * 注册自定义拦截器
-     *
-     * @param registry
-     */
-    protected void addInterceptors(InterceptorRegistry registry) {
-        log.info("开始注册自定义拦截器...");
-        registry.addInterceptor(jwtTokenAdminInterceptor)
-                .addPathPatterns("/admin/**")
-                .excludePathPatterns("/admin/employee/login");
-    }
+    @Autowired
+    private JwtTokenUserInterceptor jwtTokenUserInterceptor;  // 注入用户端拦截器
+
+        /**
+         * 注册自定义拦截器
+         */
+        @Override
+        protected void addInterceptors(InterceptorRegistry registry) {
+            log.info("开始注册自定义拦截器...");
+
+            // 1. 管理端拦截器（原有）
+            registry.addInterceptor(jwtTokenAdminInterceptor)
+                    .addPathPatterns("/admin/**")
+                    .excludePathPatterns("/admin/employee/login");
+
+            // 2. 用户端拦截器（新增）
+            registry.addInterceptor(jwtTokenUserInterceptor)
+                    .addPathPatterns("/user/**")
+                    .excludePathPatterns("/user/user/login");   // 登录接口放行
+        }
+
 
     /**
      * 通过knife4j生成接口文档

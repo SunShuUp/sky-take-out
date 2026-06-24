@@ -22,12 +22,7 @@ public interface DishService {
     DishVO getDishById(long id);
 
 
-    /**
-     * 根据分类id查询所有菜品
-     * @param categoryId
-     * @return
-     */
-    List<DishVO> query(Long categoryId);
+
 
     /**
      * 分页查询
@@ -59,4 +54,5 @@ public interface DishService {
      * @return
      */
     List<DishVO> listwithFlavor(Dish dish);
+
 }

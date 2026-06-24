@@ -52,12 +52,10 @@ public class UserServiceImpl implements UserService {
           user= User.builder().openid(open_id).createTime(LocalDateTime.now()).build();
           userMapper.insert(user);
        }
-        Map<String,Object> clam = new HashMap<>();
-        clam.put("appid",weChatProperties.getAppid());
-        clam.put("secret",weChatProperties.getSecret());
-        clam.put("js_code",userLoginDTO.getCode());
-        clam.put("grant_type","authorization_code");
-        String token=JwtUtil.createJWT(jwtProperties.getUserSecretKey(),jwtProperties.getUserTtl(), clam);
+        Map<String,Object> claims = new HashMap<>();
+        claims.put("userId", user.getId());   // 关键：存入 userId
+
+        String token=JwtUtil.createJWT(jwtProperties.getUserSecretKey(),jwtProperties.getUserTtl(), claims);
         return UserLoginVO.builder().id(user.getId()).openid(user.getOpenid()).token(token).build();
     }
 }

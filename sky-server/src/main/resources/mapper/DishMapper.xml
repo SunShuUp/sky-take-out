@@ -80,28 +80,15 @@
             </if>
         </where>
     </select>
-    <select id="query" resultType="com.sky.vo.DishVO">
-        select d.*,c.name categoryName
-        from  dish d,category c
+    <select id="list" resultType="com.sky.entity.Dish">
+        select *
+        from  dish
         <where>
-            d.category_id =c.id
-            and c.type=1
             <if test="categoryId!=null">
-                and c.id=#{categoryId}
-            </if>
-        </where>
-    </select>
-    <select id="list" resultType="com.sky.vo.DishVO">
-        select d.*,c.name categoryName
-        from  dish d,category c
-        <where>
-            d.category_id =c.id
-            and c.type=1
-            <if test="categoryId!=null">
-                and c.id=#{categoryId}
+                and category_id=#{categoryId}
             </if>
             <if test="status!=null">
-                and d.status=#{status}
+                and status=#{status}
             </if>
         </where>
     </select>

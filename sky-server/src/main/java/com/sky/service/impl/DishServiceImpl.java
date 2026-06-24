@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -37,11 +38,6 @@ public class DishServiceImpl implements DishService {
         BeanUtils.copyProperties(dish,dishVO);
         dishVO.setFlavors(flavors);
         return dishVO;
-    }
-    @Override
-    public  List<DishVO>  query(Long categoryId) {
-       List<DishVO> dishes= dishMapper.query(categoryId);
-        return dishes;
     }
 
     @Override
@@ -95,7 +91,16 @@ public class DishServiceImpl implements DishService {
 
     @Override
     public List<DishVO> listwithFlavor(Dish dish) {
-        List<DishVO> dishVOList=dishMapper.query(dish.getCategoryId());
+        List<Dish> dishList=dishMapper.list(dish);
+        List<DishVO> dishVOList=new ArrayList<>();
+        for(Dish dish1:dishList){
+            DishVO dishVO=new DishVO();
+            BeanUtils.copyProperties(dish1,dishVO);
+            List<DishFlavor> dishFlavors=dishFlavorMapper.getByDishId(dish1.getId());
+            dishVO.setFlavors(dishFlavors);
+            dishVOList.add(dishVO);
+        }
+
         return dishVOList;
     }
 }
