@@ -3,19 +3,25 @@ package com.sky.controller.admin;
 import com.sky.dto.OrdersPageQueryDTO;
 import com.sky.entity.OrderDetail;
 import com.sky.result.Result;
+import com.sky.service.OrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
-@RestController
+@RestController("/adminOrderController")
 @RequestMapping("/admin/order")
 @Api(tags = "订单管理")
 @Slf4j
 public class OrderController {
+    @Autowired
+    private OrderService orderService;
+
+
     @PutMapping("/cancel")
     @ApiOperation("取消订单")
     public Result<Integer>  cancelOrder(){
