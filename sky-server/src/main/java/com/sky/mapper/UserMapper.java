@@ -3,7 +3,10 @@ package com.sky.mapper;
 import com.sky.entity.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+
+import java.util.Map;
 
 @Mapper
 public interface UserMapper {
@@ -15,4 +18,11 @@ public interface UserMapper {
     void insert(User user);
     @Select("select * from user where id=#{userId}")
     User getByUserId(Long userId);
+
+    /**
+     * 动态统计用户数量
+     * @param map
+     * @return
+     */
+    Integer countByMap( @Param("map") Map<String, Object> map);
 }

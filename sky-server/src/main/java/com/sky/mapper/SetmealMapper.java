@@ -5,9 +5,11 @@ import com.sky.annotation.AutoFill;
 import com.sky.entity.Setmeal;
 import com.sky.enumeration.OperationType;
 import com.sky.vo.DishVO;
+import com.sky.vo.SetmealOverViewVO;
 import com.sky.vo.SetmealVO;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -28,4 +30,6 @@ public interface SetmealMapper {
     List<SetmealVO> getSetmealWithDish(Setmeal setmeal);
 
     List<DishVO> getDishbyId(Long id);
+    @Select("select count(*) from setmeal where status =#{status}")
+    Integer getCountByStatus(@Param("status") Integer status);
 }

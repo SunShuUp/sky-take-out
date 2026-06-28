@@ -7,9 +7,7 @@ import com.sky.entity.Dish;
 import com.sky.entity.DishFlavor;
 import com.sky.enumeration.OperationType;
 import com.sky.vo.DishVO;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -26,4 +24,6 @@ public interface DishMapper {
     void add(Dish dish);
     @Delete("delete from dish where id in (#{Ids})")
     void deleteBatch(String Ids);
+    @Select("select count(*) from dish where status= #{status}")
+    Integer getCountByStatus(@Param("status") Integer status);
 }

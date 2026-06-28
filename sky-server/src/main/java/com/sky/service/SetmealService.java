@@ -5,6 +5,7 @@ import com.sky.dto.SetmealPageQueryDTO;
 import com.sky.entity.Setmeal;
 import com.sky.result.PageResult;
 import com.sky.vo.DishVO;
+import com.sky.vo.SetmealOverViewVO;
 import com.sky.vo.SetmealVO;
 import io.swagger.annotations.Api;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,4 +29,10 @@ public interface SetmealService {
     List<SetmealVO> getSetmealWithDish(Setmeal Setmeal);
 
     List<DishVO> getDishbyId(Long id);
+
+    /**
+     * 套餐总览
+     * @return
+     */
+    SetmealOverViewVO OverviewSetmeals();
 }

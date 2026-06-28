@@ -14,4 +14,111 @@
         #{cancelReason},#{rejectionReason},#{cancelTime},#{estimatedDeliveryTime},#{deliveryStatus},
         #{deliveryTime},#{packAmount},#{tablewareNumber},#{tablewareStatus})
     </insert>
+    <update id="update">
+        update orders
+        <set>
+            <if test="orders.status!=null">
+                status=#{orders.status},
+            </if>
+            <if test="orders.phone!=null">
+                phone=#{orders.phone}
+            </if>
+        </set>
+        <where>
+            <if test="orders.id!=null">
+                and id=#{orders.id}
+            </if>
+        </where>
+    </update>
+    <select id="getConditionSearch" resultType="com.sky.entity.Orders">
+        select * from orders
+        <where>
+            <if test="orders.number != null and orders.number != ''">
+                and number like concat('%', #{orders.number}, '%')
+            </if>
+            <if test="orders.phone != null and orders.phone != ''">
+                and phone like concat(#{orders.phone}, '%')
+            </if>
+            <if test="beginTime != null">
+                and order_time &gt; #{beginTime}
+            </if>
+            <if test="endTime != null">
+                and order_time &lt; #{endTime}
+            </if>
+            <if test="orders.status!=null">
+                and status=#{orders.status}
+            </if>
+        </where>
+    </select>
+    <select id="historyOrders" resultType="com.sky.entity.Orders">
+        select * from orders
+        <where>
+            <if test="id!=null">
+                and user_id=#{id}
+            </if>
+            <if test="status!=null">
+                and status=#{status}
+            </if>
+        </where>
+    </select>
+    <select id="getOrderCount" resultType="java.lang.Integer">
+        select count(*)
+        from orders
+        <where>
+            <if test="beginTime!=null">
+                and order_time &gt;= #{beginTime}
+            </if>
+            <if test="endTime!=null">
+                and order_time &lt; #{endTime}
+            </if>
+            <if test="status!=null">
+                and status=#{status}
+            </if>
+        </where>
+    </select>
+    <select id="getSalesTop10" resultType="com.sky.dto.GoodsSalesDTO">
+        select od.name, sum(od.number) number
+        from order_detail od
+        join orders o on o.id = od.order_id
+        <where>
+            <if test="status!=null">
+                and o.status=#{status}
+            </if>
+            <if test="beginTime!=null">
+                and o.order_time &gt;= #{beginTime}
+            </if>
+            <if test="endTime !=null">
+                and o.order_time &lt; #{endTime}
+            </if>
+        </where>
+        group by od.name
+        order by number desc
+        limit 0,10
+
+    </select>
+    <select id="getCountByStatus" resultType="java.lang.Integer">
+        select count(*)
+        from orders
+        <where>
+            <if test="status!=null">
+                and status=#{status}
+            </if>
+        </where>
+    </select>
+    <select id="countByMap" resultType="java.lang.Integer">
+        select count(*) from orders
+        <where>
+            <if test="map.begin!=null">
+                and order_time &gt;= #{map.begin}
+            </if>
+            <if test="map.end!=null">
+                and order_time &lt;#{map.end}
+            </if>
+            <if test="map.status!=null">
+                and status=#{map.status}
+            </if>
+        </where>
+
+    </select>
+
 </mapper>
